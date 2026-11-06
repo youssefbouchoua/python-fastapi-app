@@ -2,6 +2,8 @@
 name: CI
 
 on: [push]
+env:
+  APP_NAME: fastapi-starter
 
 jobs:
   lint:
@@ -61,3 +63,19 @@ jobs:
 
       - name: Executer les tests
         run: pytest
+      
+      - name: Afficher les contextes
+        env:
+          ACTOR: ${{ github.actor }}
+          EVENT_NAME: ${{ github.event_name }}
+          BRANCH: ${{ github.ref_name }}
+          COMMIT_SHA: ${{ github.sha }}
+          RUNNER_OS: ${{ runner.os }}
+        run: |
+          echo "Application: $APP_NAME"
+          echo "Acteur: $ACTOR"
+          echo "Evenement: $EVENT_NAME"
+          echo "Branche: $BRANCH"
+          echo "SHA: $COMMIT_SHA"
+          echo "OS du runner: $RUNNER_OS"
+
