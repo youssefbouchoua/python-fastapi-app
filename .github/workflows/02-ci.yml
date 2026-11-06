@@ -45,7 +45,7 @@ jobs:
 
   test:
     name: Test - Pytest
-  
+    needs: [lint, build]
     runs-on: ubuntu-latest
     steps:
       - name: Recuperer le code
