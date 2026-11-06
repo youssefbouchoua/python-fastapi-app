@@ -16,3 +16,5 @@ def root():
 @app.get("/health")
 def health():
     return {"ok": True}
+
+# TP5 - Test du filtre GitHub Actions
