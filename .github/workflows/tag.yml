@@ -11,4 +11,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Afficher le tag
-        run: echo "Tag détecté : ${{ github.ref_name }}"
+        run: |
+          echo "Tag détecté : ${{ github.ref_name }}"
