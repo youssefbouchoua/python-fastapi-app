@@ -17,7 +17,7 @@ jobs:
           python-version: '3.13'
 
       - name: Installer les dependances
-        run: pip install -r requirements-dev.txt
+        run: pip install -r requirements.txt -r requirements-dev.txt
 
       - name: Verifier le style
         run: ruff check .
@@ -57,7 +57,7 @@ jobs:
           python-version: '3.13'
 
       - name: Installer les dependances
-        run: pip install -r requirements-dev.txt
+        run: pip install -r requirements.txt -r requirements-dev.txt
 
       - name: Executer les tests
         run: pytest
