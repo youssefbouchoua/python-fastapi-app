@@ -1,0 +1,14 @@
+
+name: Tags
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Afficher le tag
+        run: echo "Tag détecté : ${{ github.ref_name }}"
