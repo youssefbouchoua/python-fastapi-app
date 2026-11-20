@@ -1,0 +1,74 @@
+
+name: Env, Inputs and Outputs Lab
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environnement cible"
+        required: true
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+      version:
+        description: "Version à déployer"
+        default: "1.0.0"
+      debug:
+        description: "Activer le mode debug"
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      full_version: ${{ steps.version.outputs.full_version }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set environment variables
+        run: |
+          echo "APP_NAME=my-app" >> $GITHUB_ENV
+          echo "BUILD_DATE=$(date +%F)" >> $GITHUB_ENV
+
+      - name: Print environment variables
+        run: echo "Application $APP_NAME built on $BUILD_DATE"
+
+      - name: Print deployment inputs
+        env:
+          TARGET_ENV: ${{ inputs.environment }}
+          APP_VERSION: ${{ inputs.version }}
+        run: echo "Environment=$TARGET_ENV Version=$APP_VERSION"
+
+      - name: Print debug information
+        if: ${{ inputs.debug }}
+        run: echo "Debug mode is enabled"
+
+      - name: Compute full version
+        id: version
+        run: echo "full_version=${{ inputs.version }}-$(date +%F)" >> $GITHUB_OUTPUT
+
+  verify-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print APP_NAME
+        run: echo "APP_NAME=$APP_NAME"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show deployment target
+        env:
+          FULL_VERSION: ${{ needs.build.outputs.full_version }}
+          TARGET_ENV: ${{ inputs.environment }}
+        run: echo "Deploying $FULL_VERSION to $TARGET_ENV"
+  
+  call-greeting:
+    uses: ./.github/workflows/greeting.yml
+    with:
+      recipient: ${{ inputs.environment }}
