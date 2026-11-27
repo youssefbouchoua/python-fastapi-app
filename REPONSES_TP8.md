@@ -27,3 +27,4 @@ La combinaison `3.14` **ne serait pas exclue** et continuerait de s'exécuter. G
 ## Q5. Donnez deux raisons d'utiliser `max-parallel` en entreprise.
 1. **Préserver la capacité des runners partagés :** éviter qu'un seul workflow avec une grande matrice ne sature les runners auto-hébergés (*self-hosted*) ou le quota de jobs simultanés de l'organisation, ce qui bloquerait les pipelines des autres équipes.
 2. **Protéger des ressources externes partagées :** limiter la charge simultanée sur une base de données de test, un environnement de staging ou une API tierce soumise à du *rate limiting*.
+![Matrix Strategy Lab](screenshot/tp8-success.png)
